@@ -1,6 +1,11 @@
 <form action='' method="POST">
     {% csrf_token %}
-
+    <!-- If a user is not staff the request sends an error message
+    and form comes back as None -->
+    {% if error %}
+        {{ error }}
+        <a href="/">Return Home</a>
+    {% endif %}
     {{ form.as_p }}
 
     <input type="submit" value="Submit">

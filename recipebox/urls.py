@@ -23,6 +23,8 @@ urlpatterns = [
     path('recipe/<int:id>/', views.recipe_detail),
     path('author/<int:id>/', views.author_detail),
     path('add_author/', views.author_form_view),
-    path('add_recipe/', views.recipe_form_view)
+    path('add_recipe/', views.recipe_form_view),
+    path('login/', views.login_view),
+    path('logout/', views.logout_view)
     #ADD DETAIL URLS
 ]

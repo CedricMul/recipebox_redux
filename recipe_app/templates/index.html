@@ -1,12 +1,15 @@
 <h1>The Recipe Box</h1>
-<br>
-<p><a href='add_author/'>New Author</a></p>
-<p><a href='add_recipe/'>New Recipe</a></p>
-<p><a href='login/'>Login</a>''</p>
-<p><a href='logout/'>Logout</a></p>
+<br />
+<p><a href="add_author/">New Author</a></p>
+<p><a href="add_recipe/">New Recipe</a></p>
+<p><a href="login/">Login</a>''</p>
+<p><a href="logout/">Logout</a></p>
 <div>
-    <p>Authenticated?: {{ request.user.is_authenticated }}</p>
-    {% for recipe in recipes %}
-        <h4><a href="recipe/{{ recipe.author.id }}/">{{ recipe.title }}</a> by {{ recipe.author }}</h4>
-    {% endfor %}
+  <p>Authenticated?: {{ request.user.is_authenticated }}</p>
+  {% for recipe in recipes %}
+  <h4>
+    <a href="recipe/{{ recipe.id }}/">{{ recipe.title }}</a>
+    by {{ recipe.author}}
+  </h4>
+  {% endfor %}
 </div>

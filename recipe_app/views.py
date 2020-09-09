@@ -40,26 +40,28 @@ def recipe_form_view(request):
     form = AddRecipeForm()
     return render(request, 'standard_form.html', {'form': form})
 
-    # put into index?
-
 @login_required
 def recipe_edit(request, id):
-    edit = get_object_or_404(Recipe, id=id)
-    if request.method == "POST":
-        form = AddRecipeForm(request.POST, instance=edit)
-        if form.is_valid():
-            edit = form.save(commit=False)
-            edit.save()
-            return redirect('recipe', edit.pk)
+    form = None
+    edit = Recipe.objects.get(id=id)
+    data = {"title": edit.title, "author": edit.author, "description": edit.description, "timeRequired": edit.timeRequired, "instructions": edit.instructions,}
+    if request.user.is_staff or request.user == edit.author:
+        if request.method == "POST":
+            form = AddRecipeForm(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                edit.title = data['title']
+                edit.author=data['author']
+                edit.description=data['description']
+                edit.timeRequired=data['timeRequired']
+                edit.instructions=data['instructions']
+                edit.save()
+                return redirect('recipe', edit.pk)           
+        else:
+            form = AddRecipeForm(initial=data)
+            return render(request, 'standard_form.html', {'form': form})
     else:
-        form = AddRecipeForm(instance=edit)
-        return render(request, 'standard_form.html', {'form': form})
-    # else:
-        # return HttpResponseForbidden("You do not have permission to edit this recipe")
-
-
-
-
+        return HttpResponseForbidden("You do not have permission to edit this recipe")
 
 
 @login_required

@@ -6,6 +6,7 @@
 <p><a href="logout/">Logout</a></p>
 <div>
   <p>Authenticated?: {{ request.user.is_authenticated }}</p>
+  <p>Logged in as: {{request.user.username}}</p>
   {% for recipe in recipes %}
   <h4>
     <a href="recipe/{{ recipe.id }}/">{{ recipe.title }}</a>

@@ -4,10 +4,8 @@
 <p>{{ recipe.timeRequired }}</p>
 <p>{{ recipe.instructions }}</p>
 
-{% if request.user.is_staff or request.user == recipe.author %}
-<div>
-  <a href="edit/">Edit</a>
-</div>
+{% if recipe.author.name == request.user.username %}
+<p><a href="edit/">Edit</a></p>
 {% endif %}
 <br />
 <div>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, redirect
+from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http import HttpResponseForbidden
 from recipe_app.models import Author, Recipe
 from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm
@@ -45,7 +45,7 @@ def recipe_edit(request, id):
     form = None
     edit = Recipe.objects.get(id=id)
     data = {"title": edit.title, "author": edit.author, "description": edit.description, "timeRequired": edit.timeRequired, "instructions": edit.instructions,}
-    if request.user.is_staff or request.user == edit.author:
+    if request.user.is_staff or request.user.username == edit.author.name:
         if request.method == "POST":
             form = AddRecipeForm(request.POST)
             if form.is_valid():
@@ -63,21 +63,20 @@ def recipe_edit(request, id):
     else:
         return HttpResponseForbidden("You do not have permission to edit this recipe")
 
-
 @login_required
 def author_form_view(request):
     if request.method == 'POST':
         form = AddAuthorForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            user = User.objects.create_user(
+            new_user = User.objects.create_user(
                 username=data.get('username'),
                 password=data.get('password')
             )
             Author.objects.create(
                 name=data.get('name'),
                 bio=data.get('bio'),
-                user=user
+                user=new_user
             )
             return HttpResponseRedirect('/')
     # Testing to see if user is staff

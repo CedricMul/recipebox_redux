@@ -1,4 +1,5 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect, get_object_or_404, redirect
+from django.http import HttpResponseForbidden
 from recipe_app.models import Author, Recipe
 from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm
 from django.contrib.auth import login, logout, authenticate
@@ -38,6 +39,28 @@ def recipe_form_view(request):
             return HttpResponseRedirect('/')
     form = AddRecipeForm()
     return render(request, 'standard_form.html', {'form': form})
+
+    # put into index?
+
+@login_required
+def recipe_edit(request, id):
+    edit = get_object_or_404(Recipe, id=id)
+    if request.method == "POST":
+        form = AddRecipeForm(request.POST, instance=edit)
+        if form.is_valid():
+            edit = form.save(commit=False)
+            edit.save()
+            return redirect('recipe', edit.pk)
+    else:
+        form = AddRecipeForm(instance=edit)
+        return render(request, 'standard_form.html', {'form': form})
+    # else:
+        # return HttpResponseForbidden("You do not have permission to edit this recipe")
+
+
+
+
+
 
 @login_required
 def author_form_view(request):

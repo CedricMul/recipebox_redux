@@ -3,3 +3,13 @@
 <p>{{ recipe.description }}</p>
 <p>{{ recipe.timeRequired }}</p>
 <p>{{ recipe.instructions }}</p>
+
+{% if request.user.is_staff or request.user == recipe.author %}
+<div>
+  <a href="edit/">Edit</a>
+</div>
+{% endif %}
+<br />
+<div>
+  <a href="/">Home</a>
+</div>

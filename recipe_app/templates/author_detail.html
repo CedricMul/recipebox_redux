@@ -1,7 +1,13 @@
-<h1>{{ author.name }}</h1>
+<h1>Author name: {{ author.name }}</h1>
 <p>{{ author.bio }}</p>
+<p>username: {{ user.username }}</p>
+
 <h3>Recipes:</h3>
-<br>
+<br />
 {% for i in recipes %}
-    <p><a href="/recipe/{{ i.id }}/">{{ i.title }}</a></p>
+<p><a href="/recipe/{{ i.id }}/">{{ i.title }}</a></p>
+{% endfor %}
+<p>Favorite recipes: {{author.favorite.count}}</p>
+{% for f in favs %}
+<p>Fav: {{f.title}}</p>
 {% endfor %}

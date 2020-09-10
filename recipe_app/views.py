@@ -18,9 +18,10 @@ def recipe_detail(request, id):
 def author_detail(request, id):
     author = Author.objects.get(id=id)
     recipes = Recipe.objects.filter(author=author)
+    favs = author.favorite.all()
     return render(request, 'author_detail.html', {
         'author': author,
-        'recipes': recipes
+        'recipes': recipes, 'favs': favs
         })
 
 @login_required
@@ -107,3 +108,19 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+@login_required
+def favorite(request, id):
+    logged_in_user = Author.objects.get(user=request.user)
+    fav_recipe = Recipe.objects.get(id=id)
+    logged_in_user.favorite.add(fav_recipe)
+    logged_in_user.save()
+    return HttpResponseRedirect('/')
+
+@login_required
+def unfavorite(request, id):
+    logged_in_user = Author.objects.get(user=request.user)
+    fav_recipe = Recipe.objects.get(id=id)
+    logged_in_user.favorite.remove(fav_recipe)
+    return HttpResponseRedirect('/')
+

@@ -2,8 +2,7 @@ from django import forms
 from recipe_app.models import Author, Recipe
 
 class AddAuthorForm(forms.Form):
-    # You can delete this name field; no longer needed
-    # name = forms.CharField(max_length=80)
+    name = forms.CharField(max_length=80)
     bio = forms.CharField(widget=forms.Textarea)
     username = forms.CharField(max_length=240)
     password = forms.CharField(widget=forms.PasswordInput)

@@ -10,10 +10,6 @@
 <p><a href="edit/">Edit</a></p>
 {% endif %}
 <br />
-<div>
-  <a href="/">Home</a>
-</div>
-
-<p><a href="/unfavorite/{{recipe.id}}">Unfavorite</a></p>
-
-<p><a href="/favorite/{{recipe.id}}">Favorite</a></p>
+{% if request.user.is_authenticated %}
+<button><a href="/favorite/{{recipe.id}}">Favorite</a></button>
+{% endif %}

@@ -1,13 +1,14 @@
 <h1>Author name: {{ author.name }}</h1>
 <p>{{ author.bio }}</p>
-<p>username: {{ user.username }}</p>
 
 <h3>Recipes:</h3>
 <br />
 {% for i in recipes %}
 <p><a href="/recipe/{{ i.id }}/">{{ i.title }}</a></p>
 {% endfor %}
-<p>Favorite recipes: {{author.favorite.count}}</p>
+<br />
+<h3>{{ author.name }}'s Favorite Recipes:</h3>
+<p>Total favorites: {{author.favorite.count}}</p>
 {% for f in favs %}
-<p>Fav: {{f.title}}</p>
+<p><a href="/recipe/{{ f.id }}/">{{f.title}}</a></p>
 {% endfor %}

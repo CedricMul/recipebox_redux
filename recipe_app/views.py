@@ -70,14 +70,14 @@ def author_form_view(request):
         form = AddAuthorForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
-            new_user = User.objects.create_user(
+            user = User.objects.create_user(
                 username=data.get('username'),
                 password=data.get('password')
             )
             Author.objects.create(
                 name=data.get('username'),
                 bio=data.get('bio'),
-                user=new_user
+                user=user
             )
             return HttpResponseRedirect('/')
     # Testing to see if user is staff
@@ -116,11 +116,3 @@ def favorite(request, id):
     logged_in_user.favorite.add(fav_recipe)
     logged_in_user.save()
     return HttpResponseRedirect('/')
-
-@login_required
-def unfavorite(request, id):
-    logged_in_user = Author.objects.get(user=request.user)
-    fav_recipe = Recipe.objects.get(id=id)
-    logged_in_user.favorite.remove(fav_recipe)
-    return HttpResponseRedirect('/')
-

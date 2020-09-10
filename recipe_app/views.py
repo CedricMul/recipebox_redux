@@ -74,7 +74,7 @@ def author_form_view(request):
                 password=data.get('password')
             )
             Author.objects.create(
-                name=data.get('name'),
+                name=data.get('username'),
                 bio=data.get('bio'),
                 user=new_user
             )

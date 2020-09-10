@@ -1,5 +1,15 @@
 <h1>{{ recipe.title }}</h1>
-<h3><a href="/author/{{ recipe.author.id }}/">{{ recipe.author }}</a></h3>
+<h3>
+  <a href="/author/{{ recipe.author.id }}/">{{ recipe.author.name }}</a>
+</h3>
 <p>{{ recipe.description }}</p>
 <p>{{ recipe.timeRequired }}</p>
 <p>{{ recipe.instructions }}</p>
+
+{% if request.user.is_staff or recipe.author.name == request.user.username%}
+<p><a href="edit/">Edit</a></p>
+{% endif %}
+<br />
+{% if request.user.is_authenticated %}
+<button><a href="/favorite/{{recipe.id}}">Favorite</a></button>
+{% endif %}
